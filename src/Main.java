@@ -92,8 +92,12 @@ public class Main {
         System.out.println(FastAndSlowPointer.isItAPalindrome(myList));
 
 
-        int[] numbs = {8, 3, 1, 2, 4, 5, 6, 2, 7, 0, 3, 4};
+        int[] numbs = {-8, 3, 1, 2, 4, 5, 6, 2, 7, 3, 4};
         int k = 7;
         System.out.println(Random.uniquePairsWithSum(numbs, k));
+
+        System.out.println(Random.threeSum(numbs));
+
+        System.out.println(Random.fourSum(numbs));
     }
 }
