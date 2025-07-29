@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class TwoPointers {
 
     public static boolean isPalindrome(String s) {
@@ -37,6 +39,50 @@ public class TwoPointers {
             }
         }
         return i + 1;
+    }
+
+    public static int[] twoSumSorted(int[] nums, int target) {
+
+        int left = 0;
+        int right = nums.length - 1;
+        //so if it wasn't sorted, I would use a map
+        //but since it is, there's probably a better way
+
+        while (left < right) {
+            int sum = nums[left] + nums[right];
+            if (sum == target) {
+                return new int[] {left, right};
+            } else if (sum < target) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return null;
+    }
+
+
+    public static int[] squaresOfSortedArray(int[] arr) {
+
+        int left = 0;
+        int right = arr.length - 1;
+
+        int[] squared = new int[arr.length];
+        int counter = arr.length - 1;
+
+        while (left <= right) {
+            int leftSquare = arr[left] * arr[left];
+            int rightSquare = arr[right] * arr[right];
+            if (leftSquare <= rightSquare) {
+                squared[counter] = rightSquare;
+                right--;
+            } else {
+                squared[counter] = leftSquare;
+                left++;
+            }
+            counter--;
+        }
+        return squared;
     }
 
 

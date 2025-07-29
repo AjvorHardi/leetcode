@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 public class SlidingWindow {
 
@@ -331,6 +328,152 @@ public class SlidingWindow {
         }
         return maxLength;
     }
+
+    public static int maxSubarraySum(int[] A, int n) {
+        if (n > A.length) return 0;
+
+        int maxSum = 0;
+        int curSum = 0;
+
+        for (int i = 0; i < n; i++) {
+            maxSum += A[i];
+        }
+        curSum = maxSum;
+
+        for (int i = n; i < A.length; i++) {
+            curSum -= A[i - n];
+            curSum += A[i];
+            if (curSum > maxSum) {
+                maxSum = curSum;
+            }
+
+        }
+        return maxSum;
+    }
+
+
+    //leetcode #3
+    public static int longestSubstringWithoutRepeating(String word) {
+
+        int currentMax = 0;
+
+        List<Character> currentSubstring = new ArrayList<>();
+
+        for (int end = 0; end < word.length(); end++) {
+
+            Character current = word.charAt(end);
+
+            if (currentSubstring.contains(current)) {
+                currentSubstring = currentSubstring.subList(currentSubstring.indexOf(current) + 1, currentSubstring.size());
+            }
+
+            currentSubstring.add(current);
+            currentMax = Math.max(currentMax, currentSubstring.size());
+        }
+        return currentMax;
+    }
+
+    public static int longestSubstringWithoutRepeatingUsingSet(String word) {
+
+        int start = 0;
+        int currentMax = 0;
+
+        Set<Character> currentSubstring = new HashSet<>();
+
+        for (int end = 0; end < word.length(); end++) {
+
+            char current = word.charAt(end);
+
+            while (currentSubstring.contains(current)) {
+                currentSubstring.remove(word.charAt(start));
+                start++;
+            }
+            currentSubstring.add(current);
+            currentMax = Math.max(currentMax, end - start + 1);
+        }
+        return currentMax;
+    }
+
+
+
+    public static int longestSubstringWithoutRepeatingTwo(String s) {
+
+        int start = 0;
+        Set<Character> helperSet = new HashSet<>();//current window
+        int result = 0;
+
+        for (int end = 0; end < s.length(); end++) {
+
+            while (helperSet.contains(s.charAt(end))) {
+                helperSet.remove(s.charAt(start));
+                start++;
+            }
+            helperSet.add(s.charAt(end));
+            result = Math.max(result, helperSet.size());
+        }
+        return result;
+    }
+
+
+    //leetcode 1839
+    public static int longestBeautifulSubstring(String s) {
+
+        int left = 0 ;
+        int currentMax = 0;
+        int uniqueVowels = 1;
+
+        for (int right = 1; right < s.length(); right++) {
+            char thisChar = s.charAt(right);
+            char previousChar = s.charAt(right - 1);
+
+            if (thisChar > previousChar) {
+                uniqueVowels++;
+            } else {
+                left = right;
+                uniqueVowels = 1;
+            }
+
+            if (uniqueVowels == 5) {
+                currentMax = Math.max(currentMax, right - left + 1);
+
+            }
+
+
+        }
+        return currentMax;
+    }
+
+    public static int longestSubstringOfVowels(String word) {
+        String wordUpperCase = word.toUpperCase();
+
+        int start = wordUpperCase.indexOf('A');
+        System.out.println(start);
+        if (start == -1) return 0;
+        int result = 0;
+        //aaeioa
+        int uniqueVowels = 1;
+
+        for (int end = start + 1; end < wordUpperCase.length(); end++) {
+
+            char current = wordUpperCase.charAt(end);
+            char previous = wordUpperCase.charAt(end - 1);
+
+            if (current > previous) {
+                uniqueVowels++;
+            } else if (current < previous) {
+                start = end;
+                uniqueVowels = 1;
+            }
+
+            if (uniqueVowels == 5) {
+                result = Math.max(result, end - start + 1);
+            }
+
+        }
+        return result;
+
+    }
+
 
 
 
